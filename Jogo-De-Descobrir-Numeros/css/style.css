@@ -135,6 +135,9 @@ address{
 li{
     display: flex;
 }
+a{
+    color: black;
+}
 
 h4,p{
     padding-top: 10px;
