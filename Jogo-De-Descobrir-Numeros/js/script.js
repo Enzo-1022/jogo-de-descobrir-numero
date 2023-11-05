@@ -1,75 +1,54 @@
-const p2 = document.querySelector('.p02')
-const p3= document.getElementById('p03')
-const cores =[
-    'red','blue','purple','brown'
-]
+const paragrafo01 = document.getElementById('paragrafo01')
+const paragrafo02 = document.getElementById('paragrafo02')
+const btnComecar = document.getElementById('btnComecar')
+const cores = ['red','blue','purple','brown']
+var numChutado;
+var numGerado;
 
-const comecar= document.getElementById('comecar')
-comecar.addEventListener('click', geradordenum)
+btnComecar.addEventListener('click', function(){
+    comecar()
+})
 
+//FUNÇÃO PARA TROCAR COR DO PARGRAFO
+function trocarCorPargrafo() {
+    var indeceAleatorio = Math.floor(Math.random()*cores.length)
+    paragrafo01.style.color = `${cores[indeceAleatorio]}`
+}
 
-function geradordenum (){
-    var numGerado= Math.floor(Math.random()*11)
-    p2.innerHTML=''
-    p3.innerHTML='Chute um numero: <input type="number" name="numeroChutado" id="numeroChutado" min="0" max="10"><input type="button" value="verificar" class="verificar">'
-
-    var numChutadotxt = document.getElementById('numeroChutado')
-
-    const verificar= document.querySelector('.verificar')
-    verificar.addEventListener('click', verificacao)
-
-    function verificacao() {
-
-        //Mudar cor do Paragrafo
-        let numArrayAleatorio= Math.floor(Math.random()*cores.length)
-        p2.style.color=`${cores[numArrayAleatorio]}`
-
-        var numChutado= Number(numChutadotxt.value)
-        if (numChutado==numGerado) {
-            p2.innerHTML='Parabéns!'
-            p2.style.color='green'
-            p3.innerHTML=`Você acertou! o numero gerado pelo sistma foi: ${numGerado}<br><input type="button" value="Jogar Novamente" id="retry">`
-            const retry= document.querySelector('#retry')
-            retry.addEventListener('click', recomecar)
-        }else{
-            if (numChutado<numGerado) {
-                p2.innerHTML='O numero chutado é menor que o numero gerado pelo sistema. Tente novamente:'
-            }else{
-                p2.innerHTML='O numero chutado é maior q o numero gerado pelo sistema. Tente novamente!:'
-            }
+//Função de verificação
+function verificar(numeroChutado, numeroGeradoPeloSistema) {
+    if (numeroChutado != numeroGeradoPeloSistema) {
+        if (numeroChutado > numeroGeradoPeloSistema) {
+            trocarCorPargrafo()
+            paragrafo01.innerText = 'Errado!! Tente novamente você CHUTOU ALTO!!'
+        } else {
+             paragrafo01.innerText = 'Errado!! Tente novamente você CHUTOU BAIXO!!'
+             trocarCorPargrafo()
         }
+    } else {
+        paragrafo01.style.color = 'green'
+        paragrafo01.innerText = `VOCÊ ACERTOU!!!! O numero gerado foi ${numeroGeradoPeloSistema}`
+        paragrafo02.innerHTML = '<button type="button" onclick="comecar()" class="botoes-comecar-e-jogar-novamente">Jogar Novamente</button>'
     }
 }
 
-function recomecar (){
+//Função para começar o game
+function comecar() {
+    
+    //Limpa o paragrafo com os resultados 
+    paragrafo01.innerHTML = ''
 
-    var numGerado= Math.floor(Math.random()*11)
-    p3.innerHTML='Chute um numero: <input type="number" name="numeroChutado" id="numeroChutado" min="0" max="10"><input type="button" value="verificar" class="verificar">'
-    p2.innerHTML=''
+    //Gera numero aleatorio de 0 ate 10
+    numGerado = Math.floor(Math.random()*11)
 
-    var numChutadotxt=document.getElementById('numeroChutado')
+    // Input para recolher o numero chutado pelo usuario
+    paragrafo02.innerHTML = '<input type="number" max="10" min="0" id="iptnNumeroChutado"><button type="button" id="btnVerificar">Verificar</button>'
+    var iptnNumeroChutado = document.getElementById('iptnNumeroChutado')
 
-    const verificar= document.querySelector('.verificar')
-    verificar.addEventListener('click', verificacao)
-
-    function verificacao() {
-
-        let numArrayAleatorio= Math.floor(Math.random()*cores.length)
-        p2.style.color=`${cores[numArrayAleatorio]}`
-
-        var numChutado= Number(numChutadotxt.value)
-        if (numChutado==numGerado) {
-            p2.innerHTML='Parabéns!'
-            p2.style.color='green'
-            p3.innerHTML=`Você acertou! o numero gerado pelo sistma foi: ${numGerado}<br><input type="button" value="Jogar Novamente" id="comecar">`
-            var comecar= document.getElementById('comecar')
-            comecar.addEventListener('click', geradordenum)
-        }else{
-            if (numChutado<numGerado) {
-                p2.innerHTML='O numero chutado é menor que o numero gerado pelo sistema. Tente novamente:'
-            }else{
-                p2.innerHTML='O numero chutado é maior q o numero gerado pelo sistema. Tente novamente!:'
-            }
-        }
-    }
+    //verificação
+    const btnVerificar = document.getElementById('btnVerificar')
+    btnVerificar.addEventListener('click', function(){
+        numChutado = Number(iptnNumeroChutado.value)
+        verificar(numChutado,numGerado)
+    })
 }
