@@ -142,3 +142,14 @@ a{
 h4,p{
     padding-top: 10px;
 }
+
+@media only screen and (max-width: 844px){
+    #ul01,#ul02{
+        flex-direction: column;
+        text-align: center;
+    }
+    li{
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
